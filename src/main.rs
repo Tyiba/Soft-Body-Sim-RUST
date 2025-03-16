@@ -16,9 +16,11 @@ use crate::grid::Vertex;
 mod grid;
 
 const DELTA_TIME: f32 = 0.01;
-const LOG_DURATION: u64 = 50; // Duration to log timings in seconds
-static GRAVITY_ACTIVE: AtomicBool = AtomicBool::new(true);
-static EXTERNAL_MAGNITUDE: AtomicBool = AtomicBool::new(false);
+const LOG_DURATION: u64 = 10; // In seconds
+static GRAVITY_ACTIVE: AtomicBool = 
+AtomicBool::new(true);
+static EXTERNAL_MAGNITUDE: AtomicBool = 
+AtomicBool::new(false);
 const HEIGHT: usize = 30;
 const WIDTH: usize = 30;
 
@@ -38,7 +40,7 @@ fn run_threaded(grid: Arc<RwLock<Grid>>, thread_count: usize) ->  std::thread::J
                 let current = EXTERNAL_MAGNITUDE.load(Ordering::Relaxed);
                 if HEIGHT < 100
                 {
-                    for _ in 0..10
+                    for _ in 0..20
                     {
                         
                         if GRAVITY_ACTIVE.load(Ordering::Relaxed) {
@@ -164,7 +166,7 @@ fn main() {
     let core_count = num_cpus::get() / 2;
     println!("CPU core count: {}", core_count);
 
-    let thread_count = core_count * 4;
+    let thread_count = core_count;
     println!("Running simulation with {} threads", thread_count);
 
     let update_grid = grid.clone();
